@@ -3,6 +3,7 @@ import * as webpack from "webpack";
 // in case you run into any typescript error when configuring `devServer`
 import "webpack-dev-server";
 import HtmlWebpackPlugin from "html-webpack-plugin";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
 
 const config: webpack.Configuration = {
   mode: "production",
@@ -17,6 +18,7 @@ const config: webpack.Configuration = {
       title: "webpack-demo",
       template: "./public/index.html",
     }),
+    new MiniCssExtractPlugin(),
     new webpack.ProvidePlugin({
       React: "react",
     }),
@@ -29,7 +31,7 @@ const config: webpack.Configuration = {
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
   },
-  devtool: "eval-source-map",
+  devtool: "source-map",
   module: {
     rules: [
       {
@@ -49,6 +51,24 @@ const config: webpack.Configuration = {
               // sourceMaps: true,
             },
           },
+        ],
+      },
+      {
+        // less, css 模块的处理
+        test: /\.(le|c)ss$/,
+        exclude: /node_modules/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: "css-loader",
+            options: {
+              modules: {
+                localIdentName: "[local]--[hash:base64:5]",
+              },
+              sourceMap: true,
+            },
+          },
+          "less-loader",
         ],
       },
     ],
