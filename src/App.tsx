@@ -1,8 +1,12 @@
-// import React from "react";
+// App.tsx
+import styles from "./App.module.less";
+import "./global.less";
+
 export default function App() {
+  console.count("App");
   return (
-    <div>
-      <h1>React App</h1>
+    <div className={styles.app}>
+      <h1 className="font-bold">React App</h1>
     </div>
   );
 }

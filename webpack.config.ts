@@ -9,7 +9,7 @@ const config: webpack.Configuration = {
   entry: "./src/index",
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "foo.bundle.js",
+    filename: "[name]-[contenthash:8].js",
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -21,9 +21,15 @@ const config: webpack.Configuration = {
       React: "react",
     }),
   ],
+  optimization: {
+    splitChunks: {
+      chunks: "all",
+    },
+  },
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
   },
+  devtool: "eval-source-map",
   module: {
     rules: [
       {
@@ -40,6 +46,7 @@ const config: webpack.Configuration = {
                 "@babel/preset-react",
                 "@babel/preset-typescript",
               ],
+              // sourceMaps: true,
             },
           },
         ],
